@@ -1,6 +1,7 @@
 from __future__ import annotations
 import datetime
 import pendulum
+from airflow.models.dag import DAG
 from airflow.operators.bash import BashOperator
 
 with DAG(
