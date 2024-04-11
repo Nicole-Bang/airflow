@@ -16,7 +16,7 @@ with DAG(
                       'end_date': '{{ (data_interval_end.in_timezone("Asia/Seoul").replace(day=1) + macros.dateutil.relativedelta.relativedelta(days=-1)) | ds }}'
      }
     )
-    def get_datetime_macro(**kwargs):
+    def get_datetime_macro(**kwargs):   #macro 사용
         
         templates_dict = kwargs.get('templates_dict') or {}
         if templates_dict:
@@ -26,7 +26,7 @@ with DAG(
             print(end_date)
 
 
-    @task(task_id='task_direct_calc')
+    @task(task_id='task_direct_calc')   #직접연산
     def get_datetime_calc(**kwargs):
         from dateutil.relativedelta import relativedelta
 
