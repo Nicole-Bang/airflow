@@ -24,7 +24,7 @@ with DAG(
     @task(task_id='python_upstream_1')
     def python_upstream_1():
         raise AirflowException('downstream_1 Exception!')
-        # AirflowException('downstream_1 Exception!') = 실패
+        # AirflowException('downstream_1 Exception!') = 실패하도록 유도되어 있음
 
 
     @task(task_id='python_upstream_2')
