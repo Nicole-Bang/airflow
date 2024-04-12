@@ -9,7 +9,7 @@ import pendulum
 # Trigger Rule 이란??
 # 상위 task들의 상태에 따라 수행여부를 결정하고 싶을 때(예 테스크 1,2,3 중 한개라도 성공하면 task 4로 간다)
 
-# rule_eq1은 all_done 실습
+# rule_eq1은 all_done 실습(all_done : 모든 작업이 성공)
 with DAG(
     dag_id='dags_python_with_trigger_rule_eg1',
     start_date=pendulum.datetime(2023,4,1, tz='Asia/Seoul'),
@@ -24,7 +24,7 @@ with DAG(
     @task(task_id='python_upstream_1')
     def python_upstream_1():
         raise AirflowException('downstream_1 Exception!')
-        # AirflowException('downstream_1 Exception!') = 실패하도록 유도되어 있음
+        # AirflowException('downstream_1 Exception!') = 작업 실행 중에 예외 발생
 
 
     @task(task_id='python_upstream_2')

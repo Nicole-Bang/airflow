@@ -40,7 +40,7 @@ with DAG(
     # class를 이용하기 : from airflow.utils.task_group import TaskGroup
     with TaskGroup(group_id='second_group', tooltip='두 번째 그룹입니다') as group_2:   #tooltip = docstring : 함수를 설명
         ''' 여기에 적은 docstring은 표시되지 않습니다'''
-        @task(task_id='inner_function1')       #group이 분기되어있을땐 task 이름이 같아도 된다
+        @task(task_id='inner_function1')       #group이 분기되어있을땐 다른 group내의 task 이름과 task 이름이 같아도 된다
         def inner_func1(**kwargs):
             print('두 번째 TaskGroup 내 첫 번째 task입니다.')
 

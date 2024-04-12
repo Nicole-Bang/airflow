@@ -6,7 +6,7 @@ from airflow.exceptions import AirflowException
 
 import pendulum
 
-# none_skipped 실습
+# none_skipped(선행되는 모든 작업에 skipped이 없음) 실습
 with DAG(
     dag_id='dags_python_with_trigger_rule_eg2',
     start_date=pendulum.datetime(2023,4,1, tz='Asia/Seoul'),

@@ -28,7 +28,7 @@ with DAG(
     @task(task_id='python_xcom_pull_task')
     def xcom_pull(**kwargs):
         ti = kwargs['ti']
-        value1 = ti.xcom_pull(key="result1") # 같은 key값으로 task가 여러번 돌았을때 key값으로만 값을 불러오면 마지막으로 push된 값이 나온다
+        value1 = ti.xcom_pull(key="result1") # 같은 key값으로 task가 여러번 돌았을때 key값으로만 값을 불러오면 마지막으로 push된 값이 나온다 -> xcom_push2에서 push된 값이 나옴
         value2 = ti.xcom_pull(key="result2", task_ids='python_xcom_push_task1')
         print(value1)
         print(value2)
