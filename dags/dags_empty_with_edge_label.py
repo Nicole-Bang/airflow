@@ -3,6 +3,7 @@ import pendulum
 from airflow.operators.empty import EmptyOperator
 from airflow.utils.edgemodifier import Label
 
+# 그래프상 task와 task를 이어주는 선에 설명을 달아주는게 edge label
 
 with DAG(
     dag_id="dags_empty_with_edge_label",
