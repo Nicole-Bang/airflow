@@ -6,6 +6,7 @@ from airflow.exceptions import AirflowException
 
 import pendulum
 
+# none_skipped 실습
 with DAG(
     dag_id='dags_python_with_trigger_rule_eg2',
     start_date=pendulum.datetime(2023,4,1, tz='Asia/Seoul'),
