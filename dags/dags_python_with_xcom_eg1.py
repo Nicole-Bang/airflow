@@ -3,6 +3,9 @@ import pendulum
 import datetime
 from airflow.decorators import task
 
+# airflow DAG 안 TASK 간 데이터 공유를 위해 사용되는 기술
+# ex) task1의 수행 중 내용이나 결과를 task2에서 사용 또는 입력으로 주고 싶은 경우
+
 with DAG(
     dag_id="dags_python_with_xcom_eg1",
     schedule="30 6 * * *",
