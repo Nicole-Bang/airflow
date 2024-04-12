@@ -5,7 +5,7 @@ from airflow.decorators import task
 from airflow.operators.email import EmailOperator
 
 # Email 오퍼레이터는 어떤 파라미터에 Template을 사용할 수 있나요??
-# to, subject, html_comtent, files 
+# to, subject, html_comtent, files : line 25부터 참고
 
 with DAG(
     dag_id="dags_python_email_operator",
@@ -17,7 +17,7 @@ with DAG(
     @task(task_id='something_task')
     def some_logic(**kwargs):
         from random import choice 
-        return choice(['Success','Fail']) #random 라이브러리의 choice -> 아무값이나 선택되는 것
+        return choice(['Success','Fail']) #random 라이브러리의 choice -> 아무값이나 랜덤하게 선택되는 것
 
 
     send_email = EmailOperator(
