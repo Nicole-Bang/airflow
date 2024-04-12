@@ -18,9 +18,9 @@ with DAG(
     bash_pull = BashOperator(
         task_id='bash_pull',
         env={
-            'STATUS':'{{ti.xcom_pull(task_ids="python_push")["status"]}}',
-            'DATA':'{{ti.xcom_pull(task_ids="python_push")["data"]}}',
-            'OPTIONS_CNT':'{{ti.xcom_pull(task_ids="python_push")["options_cnt"]}}'
+            'STATUS':'{{ti.xcom_pull(task_ids="python_push")["status"]}}',          # Good
+            'DATA':'{{ti.xcom_pull(task_ids="python_push")["data"]}}',              # [1,2,3]
+            'OPTIONS_CNT':'{{ti.xcom_pull(task_ids="python_push")["options_cnt"]}}' # 100
 
         },
         bash_command='echo $STATUS && echo $DATA && echo $OPTIONS_CNT'
@@ -37,8 +37,8 @@ with DAG(
     @task(task_id='python_pull')
     def python_pull_xcom(**kwargs):
         ti = kwargs['ti']
-        status_value = ti.xcom_pull(key='bash_pushed')
-        return_value = ti.xcom_pull(task_ids='bash_push')
+        status_value = ti.xcom_pull(key='bash_pushed')      # 200
+        return_value = ti.xcom_pull(task_ids='bash_push')   # PUSH_COMPLETE (마지막으로 출력된 값)
         print('status_value:' + str(status_value))
         print('return_value:' + return_value)
 
