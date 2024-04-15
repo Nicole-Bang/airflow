@@ -2,8 +2,10 @@ from airflow.models.baseoperator import BaseOperator
 from airflow.hooks.base import BaseHook
 import pandas as pd 
 
+# https://airflow.apache.org/docs/apache-airflow/stable/howto/custom-operator.html 참고
+
 class SeoulApiToCsvOperator(BaseOperator):
-    template_fields = ('endpoint', 'path','file_name','base_dt')
+    template_fields = ('endpoint', 'path','file_name','base_dt') #template 사용을 허가하는 field의 이름을 넣어준다
 
     def __init__(self, dataset_nm, path, file_name, base_dt=None, **kwargs):
         super().__init__(**kwargs)
@@ -33,9 +35,9 @@ class SeoulApiToCsvOperator(BaseOperator):
                 start_row = end_row + 1
                 end_row += 1000
 
-        if not os.path.exists(self.path):
+        if not os.path.exists(self.path):       #경로가 없으면 경로 생성
             os.system(f'mkdir -p {self.path}')
-        total_row_df.to_csv(self.path + '/' + self.file_name, encoding='utf-8', index=False)
+        total_row_df.to_csv(self.path + '/' + self.file_name, encoding='utf-8', index=False)    #csv 저장
 
     def _call_api(self, base_url, start_row, end_row):
         import requests

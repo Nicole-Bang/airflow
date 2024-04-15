@@ -1,4 +1,4 @@
-from operators.seoul_api_to_csv_operator import SeoulApiToCsvOperator
+from operators.seoul_api_to_csv_operator import SeoulApiToCsvOperator #plugins는 이미 바라보고 있기때문에 제외하고 작성
 from airflow import DAG
 import pendulum
 
@@ -11,8 +11,8 @@ with DAG(
     '''서울시 코로나19 확진자 발생동향'''
     tb_corona19_count_status = SeoulApiToCsvOperator(
         task_id='tb_corona19_count_status',
-        dataset_nm='TbCorona19CountStatus',
-        path='/opt/airflow/files/TbCorona19CountStatus/{{data_interval_end.in_timezone("Asia/Seoul") | ds_nodash }}',
+        dataset_nm='TbCorona19CountStatus',     #openAPI에 가이드 되어있음
+        path='/opt/airflow/files/TbCorona19CountStatus/{{data_interval_end.in_timezone("Asia/Seoul") | ds_nodash }}',   #yyyymmdd 형태
         file_name='TbCorona19CountStatus.csv'
     )
     
