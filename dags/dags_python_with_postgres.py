@@ -34,3 +34,11 @@ with DAG(
     )
         
     insrt_postgres
+
+    # 이 코드의 문제점
+    # 접속정보 노출 : postgres DB에 대한 user, password 등
+    # 접송정보 변경시 대응 어려움
+
+    # 해결 방법
+    # variable 이용 (variable 등록 필요)
+    # Hook 이용 (variable 등록 필요 없음)
