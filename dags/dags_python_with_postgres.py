@@ -11,17 +11,20 @@ with DAG(
 
     
     def insrt_postgres(ip, port, dbname, user, passwd, **kwargs):
-        import psycopg2
+        import psycopg2     #파이썬에서 sql을 수행할 수 있게 해줌
         from contextlib import closing
-
+        
+        # psycopg2.connect() : DB서버와의 연결(session)
         with closing(psycopg2.connect(host=ip, dbname=dbname, user=user, password=passwd, port=int(port))) as conn:
+            # closing : conn.close()
+            # cursor : 실제 sql을 실행할 수 있게 해주는 역할
             with closing(conn.cursor()) as cursor:
                 dag_id = kwargs.get('ti').dag_id
                 task_id = kwargs.get('ti').task_id
                 run_id = kwargs.get('ti').run_id
                 msg = 'insrt 수행'
                 sql = 'insert into py_opr_drct_insrt values (%s,%s,%s,%s);'
-                cursor.execute(sql,(dag_id,task_id,run_id,msg))
+                cursor.execute(sql,(dag_id,task_id,run_id,msg)) # 바인딩 할 값을 맵핑
                 conn.commit()
 
     insrt_postgres = PythonOperator(
