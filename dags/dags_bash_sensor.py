@@ -3,6 +3,10 @@ from airflow.operators.bash import BashOperator
 from airflow import DAG
 import pendulum
 
+# sensor는 일종의 특화된 오퍼레이터
+# 특정 조건이 만족되기를 기다리고 만족되면 True를 반환하는 Task
+# 센싱하는 로직은 poke 함수에 정의
+
 with DAG(
     dag_id='dags_bash_sensor',
     start_date=pendulum.datetime(2023,4,1, tz='Asia/Seoul'),
