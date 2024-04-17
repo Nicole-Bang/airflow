@@ -4,6 +4,9 @@ import pendulum
 from datetime import timedelta
 from airflow.models import Variable
 
+# Task 수준의 timeout 과 DAG 수준의 timeout이 존재
+# 이 실습은 DAG 수준의 timeout임
+
 email_str = Variable.get("email_target")
 email_lst = [email.strip() for email in email_str.split(',')]
 
@@ -14,7 +17,8 @@ with DAG(
     schedule=None,
     dagrun_timeout=timedelta(minutes=1),
     default_args={
-        'execution_timeout': timedelta(seconds=40),
+        'execution_timeout': timedelta(seconds=40), 
+        # DAG 수준에서의 fail이 나타나지만 execution_timeout는 task 수준의 설정(파라미터)이므로 이메일은 발송되지 않는다
         'email_on_failure': True,
         'email': email_lst
     }
@@ -36,4 +40,5 @@ with DAG(
     )
 
     bash_sleep_35 >> bash_sleep_36 >> bash_go
+    # bash_sleep_35 는 35초간 sleep, bash_sleep_36는 36초간 sleep으로 dag 수준의 timeout인 60초를 초과하였으므로 fail
     

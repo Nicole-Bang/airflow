@@ -5,7 +5,7 @@ from airflow.hooks.base import BaseHook
 서울시 공공데이터 API 추출시 특정 날짜 컬럼을 조사하여 
 배치 날짜 기준 전날 데이터가 존재하는지 체크하는 센서 
 1. 데이터셋에 날짜 컬럼이 존재하고 
-2. API 사용시 그 날짜 컬럼으로 ORDER BY DESC 되어 가져온다는 가정하에 사용 가능
+2. API 사용시 그 날짜 컬럼으로 ORDER BY DESC 되어 가져온다는 가정하에 사용 가능(21 line에서 최신데이터 100건만 가져오게 되어있음)
 '''
 
 class SeoulApiDateSensor(BaseSensorOperator):

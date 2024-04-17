@@ -3,6 +3,9 @@ from airflow import DAG
 from airflow.operators.bash import BashOperator
 import pendulum
 
+# 실제 큐가 있는 것은 아니고 DB에 Produce / Consume 내역을 기록
+
+# 큐에서 퍼블리쉬 할때 "dags_dataset_producer_1" 로 이름을 준다
 dataset_dags_dataset_producer_1 = Dataset("dags_dataset_producer_1")
 
 with DAG(
