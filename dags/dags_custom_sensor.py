@@ -1,4 +1,4 @@
-from sensors.seoul_api_date_sensor import SeoulApiDateSensor
+from sensors.seoul_api_date_sensor import SeoulApiDateSensor        # 만들어둔 custom 센서
 from airflow import DAG
 import pendulum
 

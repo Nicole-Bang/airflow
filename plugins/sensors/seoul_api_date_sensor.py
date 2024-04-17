@@ -14,11 +14,11 @@ class SeoulApiDateSensor(BaseSensorOperator):
         '''
         dataset_nm: 서울시 공공데이터 포털에서 센싱하고자 하는 데이터셋 명
         base_dt_col: 센싱 기준 컬럼 (yyyy.mm.dd... or yyyy/mm/dd... 형태만 가능)
-        day_off: 배치일 기준 생성여부를 확인하고자 하는 날짜 차이를 입력 (기본값: 0)
+        day_off: 배치일 기준 생성여부를 확인하고자 하는 날짜 차이를 입력 (기본값: 0) ex: 하루 전 = -1
         '''
         super().__init__(**kwargs)
         self.http_conn_id = 'openapi.seoul.go.kr'
-        self.endpoint = '{{var.value.apikey_openapi_seoul_go_kr}}/json/' + dataset_nm + '/1/100'   # 100건만 추출
+        self.endpoint = '{{var.value.apikey_openapi_seoul_go_kr}}/json/' + dataset_nm + '/1/100'   # 상단 데이터 100건만 추출
         self.base_dt_col = base_dt_col
         self.day_off = day_off
 
@@ -39,6 +39,7 @@ class SeoulApiDateSensor(BaseSensorOperator):
         last_date = last_dt[:10]
         last_date = last_date.replace('.', '-').replace('/', '-')
         search_ymd = (context.get('data_interval_end').in_timezone('Asia/Seoul') + relativedelta(days=self.day_off)).strftime('%Y-%m-%d')
+            # .strftime('%Y-%m-%d') -> string 형태로 변경
         try:
             import pendulum
             pendulum.from_format(last_date, 'YYYY-MM-DD')
