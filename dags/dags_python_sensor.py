@@ -14,15 +14,17 @@ with DAG(
         import json
         from dateutil import relativedelta
         connection = BaseHook.get_connection(http_conn_id)
+        # 데이터 특성상 날짜 내림차순으로 정렬되어있기 때문에 최신자료 100개만 꺼내오는 것 
         url = f'http://{connection.host}:{connection.port}/{endpoint}/1/100'
         response = requests.get(url)
         
         contents = json.loads(response.text)
         key_nm = list(contents.keys())[0]
         row_data = contents.get(key_nm).get('row')
-        last_dt = row_data[0].get(base_dt_col)
-        last_date = last_dt[:10]
-        last_date = last_date.replace('.', '-').replace('/', '-')
+        last_dt = row_data[0].get(base_dt_col) # base_dt_col : S_DT 컬럼값
+        last_date = last_dt[:10]    #데이터의 형식이 YYYY.MM.DD.HH (시간을 끊어내고 가져옴)
+        last_date = last_date.replace('.', '-').replace('/', '-')   #YYYY-MM-DD
+        # 데이터 형식 검증
         try:
             pendulum.from_format(last_date,'YYYY-MM-DD')
         except:
