@@ -33,7 +33,8 @@ with DAG(
                     return_blocks.append(sb.section_text("*2 실패 대상*"))
                     if not failed_df.empty:
                         for idx, row in failed_df.iterrows():
-                            return_blocks.append(sb.section_text(f"*DAG:* {row['dag_id']}\n*최근 실패일자:* {row['last_failed_date']}\n*마지막 성공일자:* {'없음' if str(row['last_success_date']) =='NaT' else row['last_success_date']}"))
+                            # *마지막 성공일자:* {'없음' if str(row['last_success_date']) =='NaT' else row['last_success_date']}") : 값이 없으면 NaT로 표기 후 없음 으로 나타내고 값이 있다면 값으로 나타낸다
+                            return_blocks.append(sb.section_text(f"*DAG:* {row['dag_id']}\n*최근 실패일자:* {row['last_failed_date']}\n*마지막 성공일자:* {'없음' if str(row['last_success_date']) =='NaT' else row['last_success_date']}")) 
                     else:
                         return_blocks.append(sb.section_text("없음"))
                     return_blocks.append(sb.divider())
@@ -49,7 +50,7 @@ with DAG(
                     return_blocks.append(sb.divider())
 
                     # 3) 수행 중 대상
-                    running_df = rslt.query("(running_cnt > 0)")
+                    running_df = rslt.query("(running_cnt > 0)")    # running_cnt -> 현재 돌고 있을때만 1로 표기됨 
                     return_blocks.append(sb.section_text("*4 수행 중*"))
                     if not running_df.empty:
                         for idx, row in running_df.iterrows():
