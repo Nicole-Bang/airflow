@@ -16,8 +16,8 @@ def sla_miss_callback_to_slack(dag, task_list, blocking_task_list, slas, blockin
     block_fields = []
     
     for task in task_list.split('\n'):
-        task_id = task.split(' ')[0]
-        execution_date = task.split(' ')[2]
+        task_id = task.split(' ')[0]            # ex : task_1
+        execution_date = task.split(' ')[2]     # ex : 2023-05-10T06:00:00+00:00
         execution_date_kr = pendulum.parse(execution_date, tz='UTC').in_timezone('Asia/Seoul').strftime('%Y-%m-%dT%H:%M:%S+09:00')
         block_fields.append(
             {
