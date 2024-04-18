@@ -7,6 +7,7 @@ from airflow.models import Variable
 
 REDIRECT_URL = 'https://example.com/oauth'
 
+# 토큰 리프레시 후 variable에 저장해주는 함수
 def _refresh_token_to_variable():
     client_id = Variable.get("kakao_client_secret")
     tokens = eval(Variable.get("kakao_tokens"))
@@ -32,7 +33,7 @@ def _refresh_token_to_variable():
     print('variable 업데이트 완료(key: kakao_tokens)')
 
 
-
+# 메세지 송부 함수
 def send_kakao_msg(talk_title: str, content: dict):
     '''
     content:{'tltle1':'content1', 'title2':'content2'...}
@@ -41,7 +42,7 @@ def send_kakao_msg(talk_title: str, content: dict):
     try_cnt = 0
     while True:
         ### get Access 토큰
-        tokens = eval(Variable.get("kakao_tokens"))
+        tokens = eval(Variable.get("kakao_tokens"))     # dic형태로 저장
         access_token = tokens.get('access_token')
         content_lst = []
         button_lst = []
@@ -90,7 +91,7 @@ def send_kakao_msg(talk_title: str, content: dict):
 
         if response.status_code == 200:         # 200: 정상
             return response.status_code
-        elif response.status_code == 400:       # 400: Bad Request (잘못 요청시), 무조건 break 하도록 return
+        elif response.status_code == 400:       # 400: Bad Request (잘못 요청시 -> 예: 파라미터 누락, 데이터 형식 오류 등), 무조건 break 하도록 return
             return response.status_code
         elif response.status_code == 401 and try_cnt <= 2:      # 401: Unauthorized (토큰 만료 등)
             _refresh_token_to_variable()

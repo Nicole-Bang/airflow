@@ -4,7 +4,7 @@ def on_failure_callback_to_slack(context):
     ti = context.get('ti')
     dag_id = ti.dag_id
     task_id = ti.task_id
-    err_msg = context.get('exception')
+    err_msg = context.get('exception')  # exception : 에러 메세지를 나타냄
     batch_date = context.get('data_interval_end').in_timezone('Asia/Seoul')
 
     slack_hook = SlackWebhookHook(slack_webhook_conn_id='conn_slack_airflow_bot')
@@ -31,5 +31,5 @@ def on_failure_callback_to_slack(context):
             ]
         }
     ]
-
+    # send : text -> 메세지, blocks -> 메세지 UI
     slack_hook.send(text=text, blocks=blocks)

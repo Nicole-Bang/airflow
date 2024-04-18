@@ -18,13 +18,13 @@ with DAG(
 ) as dag:
     task_slp_90 = BashOperator(
         task_id='task_slp_90',
-        bash_command='sleep 90',
+        bash_command='sleep 90',    # 60초 후 실패로 떨어질 예정
     )
 
     task_ext_1 = BashOperator(
         trigger_rule='all_done',
         task_id='task_ext_1',
-        bash_command='exit 1'
+        bash_command='exit 1'   # exit 1 -> 실패로 간주
     )
 
     task_slp_90 >> task_ext_1
