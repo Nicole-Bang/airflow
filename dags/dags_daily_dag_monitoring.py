@@ -20,13 +20,13 @@ with DAG(
         with closing(postgres_hook.get_conn()) as conn:
             with closing(conn.cursor()) as cursor:
                 with open('/opt/airflow/files/sqls/daily_dag_monitoring.sql', 'r') as sql_file:
-                    cursor.execute("SET TIME ZONE 'Asia/Seoul';")
-                    sql = '\n'.join(sql_file.readlines())
+                    cursor.execute("SET TIME ZONE 'Asia/Seoul';")   # 한국시간으로 맞춰라
+                    sql = '\n'.join(sql_file.readlines())           # 출력형식 : list -> 각 요소 사이를 \n 으로 채워라
                     cursor.execute(sql)
                     rslt = cursor.fetchall()
                     rslt = pd.DataFrame(rslt)
                     rslt.columns = ['dag_id','run_cnt','success_cnt','failed_cnt','running_cnt','last_failed_date','last_success_date','next_dagrun_data_interval_start','next_dagrun_data_interval_end']
-                    return_blocks = []
+                    return_blocks = []      # 초기화
 
                     # 1) 실패대상
                     failed_df = rslt.query("(failed_cnt > 0)")
@@ -71,8 +71,8 @@ with DAG(
 
     send_to_slack = SlackWebhookOperator(
         task_id='send_to_slack',
-        slack_webhook_conn_id='conn_slack_airflow_bot',
-        blocks='{{ ti.xcom_pull(task_ids="get_daily_monitoring_rslt_task") }}'
+        slack_webhook_conn_id='conn_slack_airflow_bot',                         #커넥션ID
+        blocks='{{ ti.xcom_pull(task_ids="get_daily_monitoring_rslt_task") }}'  #메세지 리스트
     )
 
     get_daily_monitoring_rslt_task() >> send_to_slack

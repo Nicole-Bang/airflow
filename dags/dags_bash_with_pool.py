@@ -8,13 +8,15 @@ with DAG(
     start_date=pendulum.datetime(2023, 5, 1, tz="Asia/Seoul"),
     catchup=False,
     default_args={
-        'pool':'pool_small'
+        'pool':'pool_small'         # 로컬 airflow에서 설정
     }
 ) as dag:
+    # task 순서를 정해주지 않았기때문에 동시에 돌 예정
+    # slot이 3개이기 때문에 wight가 무거운 7,8,9가 먼저 수행될 것으로 예상
     bash_task_1 = BashOperator(
         task_id='bash_task_1',
         bash_command='sleep 30',
-        priority_weight=6
+        priority_weight=6           # priority_weight: Task의 가중치, 가중치가 클수록 schedule slot에서 queue slot 이동, 경합시 유리
     )
 
     bash_task_2 = BashOperator(
